@@ -16,12 +16,13 @@ def image(filename):
         return 404, "Not Ok dude"
     return send_from_directory('images', filename)
 
-# https://stackoverflow.com/a/14032302/8608146
 
+# flask params defaults https://stackoverflow.com/a/14032302/8608146
 
 @app.route('/thumb/<int:width>,<int:height>/<string:filename>')
 # flutter cannot handle 308 so we need to send a request with
 # a different default value from the client flutter app for eg. height: 1000
+# Height is set as a huge value because lower dims are preferred
 @app.route('/thumb/<string:filename>', defaults={'width': 460, 'height': 100000})
 def thumbnail(filename, width, height):
     if not os.path.exists(os.path.join("images", filename)):
